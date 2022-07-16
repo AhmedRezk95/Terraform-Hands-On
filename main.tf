@@ -7,7 +7,5 @@ module "network" {
   subnet_public2 = var.subnet_public2
   subnet_private1 = var.subnet_private1
   subnet_private2 = var.subnet_private2
-  ec2_ami = var.ec2_ami
-  ec2_type = var.ec2_type
-  
+
 }
