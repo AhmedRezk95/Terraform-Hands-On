@@ -4,18 +4,18 @@ resource "aws_security_group" "allow-ssh" {
   vpc_id      = module.network.vpc_id
 
   ingress {
-    description      = "Allow SSH"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "Allow SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -30,21 +30,71 @@ resource "aws_security_group" "allow-3000" {
   vpc_id      = module.network.vpc_id
 
   ingress {
-    description      = "Allow port 3000"
-    from_port        = 3000
-    to_port          = 3000
-    protocol         = "tcp"
-    cidr_blocks      = [module.network.vpc_cidr]
+    description = "Allow port 3000"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = [module.network.vpc_cidr]
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = [module.network.vpc_cidr]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [module.network.vpc_cidr]
   }
 
   tags = {
     Name = "allow-3000"
+  }
+}
+
+resource "aws_security_group" "allow-3306" {
+  name        = "allow-3306"
+  description = "Allow port 3306"
+  vpc_id      = module.network.vpc_id
+
+  ingress {
+    description = "Allow port 3306"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = [module.network.vpc_cidr]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [module.network.vpc_cidr]
+  }
+
+  tags = {
+    Name = "allow-3306"
+  }
+}
+
+resource "aws_security_group" "allow-6379" {
+  name        = "allow-6379"
+  description = "Allow port 6379"
+  vpc_id      = module.network.vpc_id
+
+  ingress {
+    description = "Allow port 6379"
+    from_port   = 6379
+    to_port     = 6379
+    protocol    = "tcp"
+    cidr_blocks = [module.network.vpc_cidr]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [module.network.vpc_cidr]
+  }
+
+  tags = {
+    Name = "allow-6379"
   }
 }
