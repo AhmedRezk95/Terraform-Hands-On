@@ -1,0 +1,8 @@
+vpc_cidr
+provider_region
+subnet_public1
+subnet_public2
+subnet_private1
+subnet_private2
+ec2_ami
+ec2_type

@@ -1,4 +1,6 @@
 Networking
+create s3 bucket for state file
+create dynamodb for locking state
 1- create vpc
 2- create internet gateway
 3- create public route table
@@ -8,8 +10,10 @@ Networking
 Compute
 7- create security group which allow ssh from 0.0.0.0/0
 8- create security group that allow ssh and port 3000 from vpc cidr only
+create secrets in secret manager for the private ssh key
 7- create ec2(bastion) in public subnet with security group from 7
 8- create ec2(application) private subnet with security group from 8
+
 ##############################################################################
 
 1-create two workspaces dev and prod
