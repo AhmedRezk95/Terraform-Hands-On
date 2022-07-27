@@ -5,7 +5,7 @@ variable "vpc_cidr" {
 
 variable "provider_region" {
   type = string
-  default = "us-east1"
+  default = "us-east-1"
 
 }
 
