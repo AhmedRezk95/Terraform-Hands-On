@@ -3,6 +3,9 @@
   remote_user: ubuntu
   become: yes
   tasks:
+    - name: ping for testing purposes
+      ping:
+      
     - name: update
       apt: 
         update_cache: yes

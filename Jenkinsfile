@@ -16,7 +16,7 @@ pipeline {
             //         sh 'terraform apply --auto-approve -no-color '}
             //         }
             // }
-
+            
             stage('installing slave packages using ansible playbook ') {
                 steps {
                     withAWS(credentials: 'aws', region: 'us-east-1'){
