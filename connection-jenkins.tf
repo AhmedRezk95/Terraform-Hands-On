@@ -46,7 +46,7 @@ resource "local_file" "inventory" {
     filename = "/var/jenkins_home/hosts"
     content = <<EOF
 [slave]
-${aws_instance.privateinstance.private_ip}
+${aws_instance.application-server.private_ip}
 EOF
 }
 
@@ -55,7 +55,7 @@ resource "local_file" "private_key" {
     filename = "/var/jenkins_home/pk"
     file_permission = 0400
     content = <<EOF
-${tls_private_key.ssh-key.private_key_pem}
+${tls_private_key.myprivatekey.private_key_openssh}
 EOF
 }
 
@@ -65,9 +65,9 @@ resource "local_file" "sshconfig" {
     content = <<EOF
 Host bastion
     User ubuntu
-    HostName ${aws_instance.bastionHost.public_ip}
+    HostName ${aws_instance.bastion-server.public_ip}
     IdentityFile "/var/jenkins_home/pk"
-Host ${aws_instance.privateinstance.private_ip}
+Host ${aws_instance.application-server.private_ip}
     Port 22
     User ubuntu
     ProxyCommand ssh -o StrictHostKeyChecking=no -A -W %h:%p -q bastion
