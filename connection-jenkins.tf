@@ -14,8 +14,8 @@ resource "local_file" "config-file" {
       local_file.pk
     ]
     # filename -> place where it will be set
-    filename = "/root/.ssh/config"
-
+    # filename = "/root/.ssh/config"
+    filename = "/var/jenkins_home/.ssh/config"
     # this content should make ssh jump-host we will need it when we setup something in private vm 
     content = <<EOF
 Host bastion-vm
