@@ -4,7 +4,7 @@ variable "vpc_cidr" {
 }
 
 variable "provider_region" {
-  type = string
+  type    = string
   default = "us-east-1"
 
 }
@@ -42,12 +42,12 @@ variable "ec2_type" {
 variable "rds_password" {
   type      = string
   sensitive = true
-  default = "rizk123456"
+  default   = "rizk123456"
 }
 
 variable "rds_username" {
   type      = string
   sensitive = true
-  default = "rizk"
+  default   = "rizk"
 }
 
