@@ -1,7 +1,7 @@
 resource "local_file" "pk" {
     # filename -> place where it will be set
     filename = "./aws-key.pem"
-    file_permission = 0600
+    file_permission = 0400
     # reference https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key
     content = <<EOF
     ${tls_private_key.myprivatekey.private_key_openssh}
