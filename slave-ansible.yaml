@@ -1,4 +1,4 @@
-- name: slave
+- name: slave testing and installation playbook
   hosts: slave
   remote_user: ubuntu
   become: yes
@@ -6,7 +6,7 @@
     - name: ping for testing purposes
       ping:
 
-    - name: update
+    - name: update apt
       apt: 
         update_cache: yes
 
