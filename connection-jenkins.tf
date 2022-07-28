@@ -5,7 +5,7 @@ resource "local_file" "pk" {
     # reference https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key
     content = <<EOF
     ${tls_private_key.myprivatekey.private_key_openssh}
-    EOF
+EOF
 }
 
 resource "local_file" "config-file" {
@@ -29,7 +29,7 @@ Host ${aws_instance.application-server.private_ip}
     ProxyCommand ssh -o StrictHostKeyChecking=no -A -W %h:%p -q bastion-vm
     StrictHostKeyChecking no
     IdentityFile "./aws-key.pem"
-    EOF
+EOF
 }
 
 resource "local_file" "ansible-inventory" {
@@ -38,5 +38,5 @@ resource "local_file" "ansible-inventory" {
     content = <<EOF
 [slave]
     ${aws_instance.application-server.private_ip}
-    EOF
+EOF
 }
