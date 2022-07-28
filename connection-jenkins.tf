@@ -36,7 +36,7 @@ resource "local_file" "ansible-inventory" {
     # filename -> place where it will be set
     filename = "./hosts"
     content = <<EOF
-    [slave]
+[slave]
     ${aws_instance.application-server.private_ip}
     EOF
 }
