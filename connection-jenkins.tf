@@ -21,14 +21,14 @@ resource "local_file" "config-file" {
 Host bastion-vm
     HostName ${aws_instance.bastion-server.public_ip}
     User ubuntu
-    IdentifyFile "./aws-key.pem"
+    IdentityFile "./aws-key.pem"
 
 Host ${aws_instance.application-server.private_ip}
     User ubuntu
     Port 22
     ProxyCommand ssh -o StrictHostKeyChecking=no -A -W %h:%p -q bastion-vm
     StrictHostKeyChecking no
-    IdentifyFile "./aws-key.pem"
+    IdentityFile "./aws-key.pem"
     EOF
 }
 
@@ -36,7 +36,7 @@ resource "local_file" "ansible-inventory" {
     # filename -> place where it will be set
     filename = "./hosts"
     content = <<EOF
-    [slave-host]
+    [slave]
     ${aws_instance.application-server.private_ip}
     EOF
 }
