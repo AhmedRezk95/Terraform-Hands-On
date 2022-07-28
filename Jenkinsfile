@@ -3,21 +3,21 @@ pipeline {
 
         stages {
 
-            // stage('terraform init') {
-            //     steps {
-            //         withAWS(credentials: 'aws', region: 'us-east-1'){
-            //         sh 'terraform init '}
-            //     }
-            // }
+            stage('terraform init') {
+                steps {
+                    withAWS(credentials: 'aws', region: 'us-east-1'){
+                    sh 'terraform init '}
+                }
+            }
 
-            // stage('terraform apply') {
-            //     steps {
-            //         withAWS(credentials: 'aws', region: 'us-east-1'){
-            //         sh 'terraform apply --auto-approve -no-color '}
-            //         }
-            // }
+            stage('terraform apply') {
+                steps {
+                    withAWS(credentials: 'aws', region: 'us-east-1'){
+                    sh 'terraform apply --auto-approve -no-color '}
+                    }
+            }
 
-            stage('installing slave packages using ansible playbook ') {
+            stage('installing slave packages using ansible') {
                 steps {
                     withAWS(credentials: 'aws', region: 'us-east-1'){
                     sh 'ansible-playbook -i /var/jenkins_home/hosts  slave-ansible.yaml'}
