@@ -1,3 +1,12 @@
+# resource "local_file" "ansible-inventory" {
+#     # filename -> place where it will be set
+#     filename = "/var/jenkins_home/hosts"
+#     content = <<EOF
+# [slave]
+#     ${aws_instance.application-server.private_ip}
+# EOF
+# }
+
 # resource "local_file" "pk" {
 #     # filename -> place where it will be set
 #     filename = "/var/jenkins_home/aws-key.pem"
@@ -29,15 +38,6 @@
 #     ProxyCommand ssh -o StrictHostKeyChecking=no -A -W %h:%p -q bastion-vm
 #     StrictHostKeyChecking no
 #     IdentityFile "/var/jenkins_home/aws-key.pem"
-# EOF
-# }
-
-# resource "local_file" "ansible-inventory" {
-#     # filename -> place where it will be set
-#     filename = "/var/jenkins_home/hosts"
-#     content = <<EOF
-# [slave]
-#     ${aws_instance.application-server.private_ip}
 # EOF
 # }
 
