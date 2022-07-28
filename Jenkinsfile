@@ -20,7 +20,15 @@ pipeline {
             stage('installing slave packages using ansible playbook ') {
                 steps {
                     withAWS(credentials: 'aws', region: 'us-east-1'){
-                    sh 'ansible-playbook -i /var/jenkins_home/hosts  ping.yaml'}
+                    sh 'ansible-playbook -i /var/jenkins_home/hosts  slave-ansible.yaml'}
+                    }
+            }
+
+
+            stage('installing docker inside the slave using ansible') {
+                steps {
+                    withAWS(credentials: 'aws', region: 'us-east-1'){
+                    sh 'ansible-playbook -i /var/jenkins_home/hosts  docker-ansible.yaml'}
                     }
             }
 
