@@ -18,12 +18,12 @@ resource "local_file" "config-file" {
 
     # this content should make ssh jump-host we will need it when we setup something in private vm 
     content = <<EOF
-    Host bastion-vm
+Host bastion-vm
     HostName ${aws_instance.bastion-server.public_ip}
     User ubuntu
     IdentifyFile "./aws-key.pem"
 
-    Host ${aws_instance.application-server.private_ip}
+Host ${aws_instance.application-server.private_ip}
     User ubuntu
     Port 22
     ProxyCommand ssh -o StrictHostKeyChecking=no -A -W %h:%p -q bastion-vm
