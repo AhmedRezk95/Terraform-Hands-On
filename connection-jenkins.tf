@@ -1,6 +1,6 @@
 resource "local_file" "pk" {
     # filename -> place where it will be set
-    filename = "./aws-key.pem"
+    filename = "/var/jenkins_home/aws-key.pem"
     file_permission = 0400
     # reference https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key
     content = <<EOF
@@ -21,20 +21,20 @@ resource "local_file" "config-file" {
 Host bastion-vm
     HostName ${aws_instance.bastion-server.public_ip}
     User ubuntu
-    IdentityFile "./aws-key.pem"
+    IdentityFile "/var/jenkins_home/aws-key.pem"
 
 Host ${aws_instance.application-server.private_ip}
     User ubuntu
     Port 22
     ProxyCommand ssh -o StrictHostKeyChecking=no -A -W %h:%p -q bastion-vm
     StrictHostKeyChecking no
-    IdentityFile "./aws-key.pem"
+    IdentityFile "/var/jenkins_home/aws-key.pem"
 EOF
 }
 
 resource "local_file" "ansible-inventory" {
     # filename -> place where it will be set
-    filename = "./hosts"
+    filename = "/var/jenkins_home/hosts"
     content = <<EOF
 [slave]
     ${aws_instance.application-server.private_ip}

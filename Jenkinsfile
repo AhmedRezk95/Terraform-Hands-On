@@ -20,7 +20,7 @@ pipeline {
             stage('installing slave packages using ansible playbook ') {
                 steps {
                     withAWS(credentials: 'aws', region: 'us-east-1'){
-                    sh 'ansible-playbook ping.yaml'}
+                    sh 'ansible-playbook -i /var/jenkins_home/hosts  ping.yaml'}
                     }
             }
 
