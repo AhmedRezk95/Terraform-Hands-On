@@ -46,7 +46,7 @@ pipeline {
                     withAWS(credentials: 'aws', region: 'us-east-1'){
                        sh '''
                         sudo usermod -aG docker ubuntu
-                        docker build . -f dockerfile -t app-image
+                        docker build -f dockerfile -t app-image .
                         docker run -d --name node-app -e RDS_HOSTNAME='mydb' -e RDS_USERNAME='rizk' -e RDS_PASSWORD='rizk123456' -e RDS_PORT='3306' app-image
                         '''
                     }
