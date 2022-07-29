@@ -48,7 +48,7 @@ pipeline {
                         sudo chmod 666 /var/run/docker.sock
                         sudo usermod -aG docker ubuntu
                         docker build -f dockerfile -t app-image .
-                        docker run -d -p 3000:3000 --name node-app -e RDS_HOSTNAME='terraform-20220729121505186500000001.cwhaypjos7tr.us-east-1.rds.amazonaws.com' -e RDS_USERNAME='rizk' -e RDS_PASSWORD='rizk123456' -e RDS_PORT='3306' app-image
+                        docker run -d -p 3000:3000 --name node-app -e RDS_HOSTNAME='terraform-20220729121505186500000001.cwhaypjos7tr.us-east-1.rds.amazonaws.com' -e RDS_USERNAME='rizk' -e RDS_PASSWORD='rizk123456' -e RDS_PORT='3306' -e REDIS_HOSTNAME='cluster-example.byh8zr.0001.use1.cache.amazonaws.com:6379' -e REDIS_PORT='6379' app-image
                         '''
                     }
                 }
