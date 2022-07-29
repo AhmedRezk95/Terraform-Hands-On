@@ -39,6 +39,14 @@ pipeline {
                     }
             }
 
+
+            stage('clone the app inside EC2 slave') {
+                agent { node { label 'terraform-slave'} }
+                steps {
+                    git url:'https://github.com/mahmoud254/jenkins_nodejs_example.git' , branch: 'rds_redis'
+                    }
+            }
+
             // stage('terraform destroy') {
             //     steps {
             //         withAWS(credentials: 'aws', region: 'us-east-1'){
