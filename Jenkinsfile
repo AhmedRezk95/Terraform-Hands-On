@@ -55,6 +55,15 @@ pipeline {
                     }
             }
 
+
+            stage('run container based created docker image') {
+                agent { node { label 'terraform-slave'} }
+                steps {
+                    withAWS(credentials: 'aws', region: 'us-east-1'){
+                    sh 'docker run -d --name node-app app-image'}
+                    }
+            }
+
             // stage('terraform destroy') {
             //     steps {
             //         withAWS(credentials: 'aws', region: 'us-east-1'){
