@@ -98,3 +98,28 @@ resource "aws_security_group" "allow-6379" {
     Name = "allow-6379"
   }
 }
+
+# resource "aws_security_group" "alb-sg" {
+#   name        = "allow-80"
+#   description = "Allow 80 inbound traffic"
+#   vpc_id      = module.network.vpc_id
+
+#   ingress {
+#     description = "Allow 80"
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+
+#   tags = {
+#     Name = "${var.alb-name}-alb_sg"
+#   }
+# }
