@@ -45,6 +45,7 @@ pipeline {
                     git url:'https://github.com/mahmoud254/jenkins_nodejs_example.git' , branch: 'rds_redis'
                     withAWS(credentials: 'aws', region: 'us-east-1'){
                        sh '''
+                        sudo chmod 666 /var/run/docker.sock
                         sudo usermod -aG docker ubuntu
                         docker build -f dockerfile -t app-image .
                         docker run -d --name node-app -e RDS_HOSTNAME='mydb' -e RDS_USERNAME='rizk' -e RDS_PASSWORD='rizk123456' -e RDS_PORT='3306' app-image
