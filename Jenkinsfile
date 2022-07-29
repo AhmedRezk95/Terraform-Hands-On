@@ -52,7 +52,7 @@ pipeline {
                 steps {
                     withAWS(credentials: 'aws', region: 'us-east-1'){
                     sh '''
-                    usermod -aG docker ubuntu
+                    sudo usermod -aG docker ubuntu
                     docker build . -f dockerfile -t app-image
                     '''
                     }
