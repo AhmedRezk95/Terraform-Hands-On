@@ -39,35 +39,41 @@ pipeline {
                     }
             }
 
-
-            stage('clone the app inside EC2 slave') {
+            stage('clone / build / run app inside EC2 slave') {
                 agent { node { label 'terraform-slave'} }
                 steps {
                     git url:'https://github.com/mahmoud254/jenkins_nodejs_example.git' , branch: 'rds_redis'
-                    }
-            }
-
-            stage('build docker image') {
-                agent { node { label 'terraform-slave'} }
-                steps {
                     withAWS(credentials: 'aws', region: 'us-east-1'){
-                    sh '''
-                    sudo usermod -aG docker ubuntu
-                    docker build . -f dockerfile -t app-image
-                    '''
+                       sh '''
+                        sudo usermod -aG docker ubuntu
+                        docker build . -f dockerfile -t app-image
+                        docker run -d --name node-app -e RDS_HOSTNAME='mydb' -e RDS_USERNAME='rizk' -e RDS_PASSWORD='rizk123456' -e RDS_PORT='3306' app-image
+                        '''
                     }
                 }
             }
 
+            // stage('build docker image') {
+            //     agent { node { label 'terraform-slave'} }
+            //     steps {
+            //         withAWS(credentials: 'aws', region: 'us-east-1'){
+            //         sh '''
+            //         sudo usermod -aG docker ubuntu
+            //         docker build . -f dockerfile -t app-image
+            //         '''
+            //         }
+            //     }
+            // }
 
-            stage('run container based created docker image') {
-                agent { node { label 'terraform-slave'} }
-                steps {
-                    withAWS(credentials: 'aws', region: 'us-east-1'){
-                    sh "docker run -d --name node-app -e RDS_HOSTNAME='mydb' -e RDS_USERNAME='rizk' -e RDS_PASSWORD='rizk123456' -e RDS_PORT='3306' app-image"
-                    }
-                }
-            }
+
+            // stage('run container based created docker image') {
+            //     agent { node { label 'terraform-slave'} }
+            //     steps {
+            //         withAWS(credentials: 'aws', region: 'us-east-1'){
+            //         sh "docker run -d --name node-app -e RDS_HOSTNAME='mydb' -e RDS_USERNAME='rizk' -e RDS_PASSWORD='rizk123456' -e RDS_PORT='3306' app-image"
+            //         }
+            //     }
+            // }
 
             // stage('terraform destroy') {
             //     steps {
