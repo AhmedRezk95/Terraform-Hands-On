@@ -41,12 +41,6 @@ pipeline {
 
             // stage('clone / build / run app inside EC2 slave') {
             //     agent { node { label 'terraform-slave'} }
-            // //     environment {
-            // //     RDS_ENDPOINT = '$(aws ssm get-parameter --name /dev/database/endpoint --query "Parameter.Value" --with-decryption --output text)'
-            // //     RDS_USERNAME = '$(aws ssm get-parameter --name /dev/database/username --query "Parameter.Value" --with-decryption --output text)'
-            // //     RDS_PASSWORD = '$(aws ssm get-parameter --name /dev/database/password --query "Parameter.Value" --with-decryption --output text)'
-            // //     REDIS_ENDPOINT = '$(aws ssm get-parameter --name /dev/redis/endpoint --query "Parameter.Value" --with-decryption --output text)'
-            // // }
             //     steps {
             //         git url:'https://github.com/mahmoud254/jenkins_nodejs_example.git' , branch: 'rds_redis'
             //         withAWS(credentials: 'aws', region: 'us-east-1'){
@@ -59,19 +53,6 @@ pipeline {
             //         }
             //     }
             // }
-
-            // stage('build docker image') {
-            //     agent { node { label 'terraform-slave'} }
-            //     steps {
-            //         withAWS(credentials: 'aws', region: 'us-east-1'){
-            //         sh '''
-            //         sudo usermod -aG docker ubuntu
-            //         docker build . -f dockerfile -t app-image
-            //         '''
-            //         }
-            //     }
-            // }
-
 
             // stage('run container based created docker image') {
             //     agent { node { label 'terraform-slave'} }
