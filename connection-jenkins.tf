@@ -1,46 +1,3 @@
-# resource "local_file" "ansible-inventory" {
-#     # filename -> place where it will be set
-#     filename = "/var/jenkins_home/hosts"
-#     content = <<EOF
-# [slave]
-#     ${aws_instance.application-server.private_ip}
-# EOF
-# }
-
-# resource "local_file" "pk" {
-#     # filename -> place where it will be set
-#     filename = "/var/jenkins_home/aws-key.pem"
-#     file_permission = 0400
-#     # reference https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key
-#     content = <<EOF
-#     ${tls_private_key.myprivatekey.private_key_openssh}
-# EOF
-# }
-
-# resource "local_file" "config-file" {
-#     # create this resource after private key is create
-#     depends_on = [
-#       local_file.pk
-#     ]
-#     # filename -> place where it will be set
-#     filename = "/root/.ssh/config"
-#     # filename = "/var/jenkins_home/.ssh/config"
-#     # this content should make ssh jump-host we will need it when we setup something in private vm 
-#     content = <<EOF
-# Host bastion-vm
-#     HostName ${aws_instance.bastion-server.public_ip}
-#     User ubuntu
-#     IdentityFile "/var/jenkins_home/aws-key.pem"
-
-# Host ${aws_instance.application-server.private_ip}
-#     User ubuntu
-#     Port 22
-#     ProxyCommand ssh -o StrictHostKeyChecking=no -A -W %h:%p -q bastion-vm
-#     StrictHostKeyChecking no
-#     IdentityFile "/var/jenkins_home/aws-key.pem"
-# EOF
-# }
-
 
 resource "local_file" "inventory" {
   filename = "/var/jenkins_home/hosts"
@@ -75,21 +32,3 @@ Host ${aws_instance.application-server.private_ip}
     IdentityFile "/var/jenkins_home/pk"
 EOF
 }
-
-# # add enivornment variables in ./env file
-# resource "local_file" "docker_env" {
-#   filename        = "./env"
-#   file_permission = 0777
-#   depends_on = [
-#     aws_elasticache_replication_group.example,
-#     aws_db_instance.default
-#   ]
-#   content = <<EOF
-# RDS_HOSTNAME=${aws_db_instance.default.address}
-# RDS_USERNAME=${aws_db_instance.default.username}
-# RDS_PASSWORD=${aws_db_instance.default.password}
-# RDS_PORT=${aws_db_instance.default.port}
-# REDIS_HOSTNAME=${aws_elasticache_replication_group.example.primary_endpoint_address}
-# REDIS_PORT=${aws_elasticache_replication_group.example.port}
-# EOF
-# }

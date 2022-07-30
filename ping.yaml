@@ -1,7 +1,0 @@
-- name: slave testing and installation playbook
-  hosts: slave
-  remote_user: ubuntu
-  become: yes
-  tasks:
-    - name: ping for testing purposes
-      ping:
