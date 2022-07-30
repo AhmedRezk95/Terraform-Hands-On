@@ -30,7 +30,7 @@ resource "aws_db_instance" "default" {
   ]
 }
 
-
+# use system manager service to store environment variable 
 # get the rds hostname 
 resource "aws_ssm_parameter" "rds_endpoint" {
   name        = "/dev/database/endpoint"

@@ -20,7 +20,7 @@ pipeline {
             // stage('installing slave packages using ansible') {
             //     steps {
             //         withAWS(credentials: 'aws', region: 'us-east-1'){
-            //         sh 'ansible-playbook -i /var/jenkins_home/hosts slave-ansible.yaml'}
+            //         sh 'ansible-playbook -i /var/jenkins_home/hosts ./ansible/slave-ansible.yaml'}
             //         }
             // }
 
@@ -28,14 +28,14 @@ pipeline {
             // stage('installing docker inside the slave using ansible') {
             //     steps {
             //         withAWS(credentials: 'aws', region: 'us-east-1'){
-            //         sh 'ansible-playbook -i /var/jenkins_home/hosts docker-ansible.yaml'}
+            //         sh 'ansible-playbook -i /var/jenkins_home/hosts ./ansible/docker-ansible.yaml'}
             //         }
             // }
 
             // stage('copy jar file for slave communication') {
             //     steps {
             //         withAWS(credentials: 'aws', region: 'us-east-1'){
-            //         sh 'ansible-playbook -i /var/jenkins_home/hosts ./ansible/jar.yaml'}
+            //         sh 'ansible-playbook -i /var/jenkins_home/hosts jar.yaml'}
             //         }
             // }
 

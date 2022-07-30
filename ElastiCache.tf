@@ -17,6 +17,7 @@ resource "aws_elasticache_replication_group" "example" {
   security_group_ids         = [aws_security_group.allow-ssh.id, aws_security_group.allow-3000.id, aws_security_group.allow-3306.id, aws_security_group.allow-6379.id]
 }
 
+# use system manager service to store environment variable 
 resource "aws_ssm_parameter" "redis_endpoint" {
   name        = "/dev/redis/endpoint"
   description = "redis endpoint"
