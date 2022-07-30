@@ -8,8 +8,9 @@ resource "aws_lb_target_group" "alb-target" {
 
 resource "aws_lb_target_group_attachment" "alb-target-attach" {
   target_group_arn = aws_lb_target_group.alb-target.arn
-  target_id        = aws_instance.bastion-server.id
-  port             = 80
+  target_id        = aws_instance.application-server.id
+  # set port as per requested
+  port             = 3000
 }
 
 
