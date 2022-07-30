@@ -39,6 +39,63 @@ Build an AWS architecture with terraform to run nodeJS application using CI/CD J
 2- configure ansible to run over private ips through bastion (~/.ssh/config):
   * In order to do this we used the Jumphost concept as we want to ssh from jenkins directly to private ec2 which in our archecture is locked from any device except bastion-ec2 so we have to find away to ssh from jenkins server directly to private-vm
   * So we create a config file inside /root/.ssh using terraform local_file resource
-  Result:
+  * Result:
   
+  ![image](https://user-images.githubusercontent.com/30655799/181935559-80651ca0-06d4-4d13-b628-95990f568fb4.png)
+
   ![image](https://user-images.githubusercontent.com/30655799/181935328-33493bee-9378-425a-836a-6413d3b3f1cd.png)
+  
+  
+3- Configure EC2 Private-VM as Jenkins slave
+  * After successfully configured the jumphost and ssh from Jenkins machine to private EC2 we need to set it up as Jenkins slave to run it in the pipeline for future builds
+  * First we have to setup docker and copy the jar file from jenkins to private EC2 (you will find them in docker-ansible.yaml / jar.yaml)
+  * go inside Jenkins -> manage Nodes --> New node --> configure it based on command on the controller
+```bash
+ssh <machine> java -jar <where-you-set-jar-file>
+```
+ ![image](https://user-images.githubusercontent.com/30655799/181935799-366357b7-4cc2-4933-913c-9431e048fc1c.png)
+ 
+* Results
+![image](https://user-images.githubusercontent.com/30655799/181935862-4a51714d-a400-4ee7-b6fb-39a0cd3cb643.png)
+
+4- create pipeline to deploy nodejs_example from branch (rds_redis) --> [link](https://github.com/mahmoud254/jenkins_nodejs_example/tree/rds_redis):
+  * Using plugin git insied Jenkinsfile we can clone directly the repo inside private-vm
+  * install awscli for using environment stored in System manager like hostname, password, username
+  * get access to docker deamon
+  * set ec2 user "ubuntu" inside docker group 
+  * build the image from the repo
+  * run container based on this image with the suitable environment variables 
+```json
+stage('clone / build / run app inside EC2 slave') {
+      agent { node { label 'terraform-slave'} }
+      environment {
+
+          rds_hostname   = '$(aws ssm get-parameter --name /dev/database/endpoint --query "Parameter.Value" --with-decryption --output text)'
+          rds_username   = '$(aws ssm get-parameter --name /dev/database/username --query "Parameter.Value" --with-decryption --output text)'
+          rds_password   = '$(aws ssm get-parameter --name /dev/database/password --query "Parameter.Value" --with-decryption --output text)'
+          rds_port       = 3306
+
+          redis_hostname = '$(aws ssm get-parameter --name /dev/redis/endpoint --query "Parameter.Value" --with-decryption --output text)'
+          redis_port = 6379
+
+      }
+      steps {
+            git url:'https://github.com/mahmoud254/jenkins_nodejs_example.git' , branch: 'rds_redis'
+            withAWS(credentials: 'aws', region: 'us-east-1'){
+               sh """
+                sudo apt install -y awscli 
+                sudo chmod 666 /var/run/docker.sock
+                sudo usermod -aG docker ubuntu
+                docker build -f dockerfile -t app-image .
+                docker run -d -p 3000:3000 --name node-app -e RDS_HOSTNAME=${rds_hostname} -e RDS_USERNAME=${rds_username}'rizk' -e RDS_PASSWORD=${rds_password} -e RDS_PORT=${rds_port} -e REDIS_HOSTNAME=${redis_hostname} -e REDIS_PORT=${redis_port} app-image"""
+              }
+      }
+}
+```
+
+
+
+
+
+
+
