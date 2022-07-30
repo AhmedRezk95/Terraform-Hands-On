@@ -60,12 +60,12 @@ ssh <machine> java -jar <where-you-set-jar-file>
 
 4- create pipeline to deploy nodejs_example from branch (rds_redis) --> [link](https://github.com/mahmoud254/jenkins_nodejs_example/tree/rds_redis):
   * Using plugin git insied Jenkinsfile we can clone directly the repo inside private-vm
-  * install awscli for using environment stored in System manager like hostname, password, username
-  * get access to docker deamon
-  * set ec2 user "ubuntu" inside docker group 
-  * build the image from the repo
-  * run container based on this image with the suitable environment variables 
-```json
+  * Install awscli for using environment stored in System manager like hostname, password, username
+  * Get access to docker deamon
+  * Set ec2 user "ubuntu" inside docker group 
+  * Build the image from the repo
+  * Run container based on this image with the suitable environment variables 
+```yaml
 stage('clone / build / run app inside EC2 slave') {
       agent { node { label 'terraform-slave'} }
       environment {
@@ -92,6 +92,19 @@ stage('clone / build / run app inside EC2 slave') {
       }
 }
 ```
+
+5- Create Loadbalancer linked to private-vm and test your application by calling loadbalancer_url/db and /redis:
+
+![image](https://user-images.githubusercontent.com/30655799/181936718-b5ed2597-fbf4-40a6-aec7-b8545f436720.png)
+
+* Get DNS
+  ![image](https://user-images.githubusercontent.com/30655799/181936768-0b30c275-af57-479c-85ab-785c4ff65fa9.png)
+  
+### FINAL RESULTS
+![Screenshot from 2022-07-30 16-42-20-1](https://user-images.githubusercontent.com/30655799/181936845-01d6810d-10c9-49cc-8f66-1f24c5504481.png)
+![Screenshot from 2022-07-30 16-42-26](https://user-images.githubusercontent.com/30655799/181936847-77c0ac43-875d-4f57-b739-3e1aae998ccf.png)
+
+
 
 
 
