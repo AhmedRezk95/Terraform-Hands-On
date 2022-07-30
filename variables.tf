@@ -51,9 +51,9 @@ variable "rds_username" {
   default   = "rizk"
 }
 
-# variable "alb-name" {
-#   type      = string
-#   sensitive = true
-#   default   = "rizk"
-# }
+variable "alb-name" {
+  type      = string
+  sensitive = true
+  default   = "rizk"
+}
 
