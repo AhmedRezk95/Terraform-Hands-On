@@ -56,7 +56,7 @@ pipeline {
                     git url:'https://github.com/mahmoud254/jenkins_nodejs_example.git' , branch: 'rds_redis'
                     withAWS(credentials: 'aws', region: 'us-east-1'){
                        sh """
-                        sudo apt install awscli
+                        sudo apt install -y awscli 
                         sudo chmod 666 /var/run/docker.sock
                         sudo usermod -aG docker ubuntu
                         docker build -f dockerfile -t app-image .
